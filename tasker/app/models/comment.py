@@ -1,6 +1,7 @@
 import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
+from sqlalchemy.orm import relationship, backref
 from . import Base
 
 
@@ -10,6 +11,7 @@ class Comment(Base):
     date = Column(DateTime, nullable=False, default=datetime.datetime.now)
     body = Column(String(255), nullable=False)
     comment_to_response = Column(Integer, ForeignKey('comments.id'), nullable=True)
+    response_relationship = relationship("Comment")
     is_response = Column(Boolean, nullable=False, default=False)
 
     def __init__(self, date, body, comment_to_response=None):
