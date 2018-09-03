@@ -1,16 +1,6 @@
-from datetime import datetime
-import json
 
-from app import app
-from flask import request
 
-from .models import db_session
-from .models import Comment
-
-@app.route("/")
-def hello():
-    return "Hello World!"
-
+from models import  Comment
 
 @app.route("/comments/", methods=["GET", "POST"])
 def comments():
@@ -39,8 +29,8 @@ def comments():
             return "FAILED"
         else:
             new_comment = Comment(datetime.now(), body=body, comment_to_response=comment_to_response)
-            db_session.add(new_comment)
-            db_session.commit()
+            db.add(new_comment)
+            db.commit()
             return "ADDED\n" + str(new_comment)
 
 
@@ -58,13 +48,13 @@ def comment(comment_id):
             if body:
                 comment_to_update = Comment.query.filter(Comment.id == comment_id).first()
                 comment_to_update.body = body
-                db_session.commit()
+                db.commit()
                 return "UPDATED\n" + str(comment_to_update)
             else:
                 return "FAILED"
         else:
-            db_session.delete(Comment.query.filter(Comment.id == comment_id).first())
-            db_session.commit()
+            db.delete(Comment.query.filter(Comment.id == comment_id).first())
+            db.commit()
             return "DELETED"
     else:
         return "FAILED"
