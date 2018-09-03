@@ -2,10 +2,10 @@ import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-from . import Base
+from .. import db
 
 
-class Comment(Base):
+class Comment(db.Model):
     __tablename__ = "comments"
     id = Column(Integer, autoincrement=True, primary_key=True)
     date = Column(DateTime, nullable=False, default=datetime.datetime.now)

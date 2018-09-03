@@ -1,6 +1,8 @@
 
+import json
 
-from models import  Comment
+from flask import request
+from models import Comment
 
 @app.route("/comments/", methods=["GET", "POST"])
 def comments():
