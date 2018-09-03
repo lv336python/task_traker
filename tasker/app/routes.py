@@ -1,4 +1,4 @@
-from app import app
+from tasker.app import app
 
 
 @app.route("/")
