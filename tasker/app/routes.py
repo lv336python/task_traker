@@ -1,8 +1,10 @@
 
+import datetime
 import json
 
 from flask import request
-from models import Comment
+from .models import Comment
+from . import db, app
 
 @app.route("/comments/", methods=["GET", "POST"])
 def comments():
@@ -26,7 +28,6 @@ def comments():
     else:
         body = request.form["body"]
         comment_to_response = request.form.get("comment_to_response", None)
-
         if comment_to_response and not Comment.query.filter(Comment.id == comment_to_response).first():
             return "FAILED"
         else:
