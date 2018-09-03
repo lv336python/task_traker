@@ -105,6 +105,3 @@ venv.bak/
 
 #pyCharm
 .idea/
-
-#Project settings
-.app/local_settings.py

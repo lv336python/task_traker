@@ -27,4 +27,3 @@ class Comment(db.Model):
                    f"Answer to {self.comment_to_response} Body:{self.body}"
         else:
             return f"Comment #{self.id}:\n\tDate:{self.date}\n\tBody:{self.body}"
-
