@@ -1,10 +1,9 @@
-
-import datetime
 import json
-
 from flask import request
-from .models import Comment
-from . import db, app
+
+from app.models import Comment
+from .. import app, db
+
 
 @app.route("/comments/", methods=["GET", "POST"])
 def comments():
