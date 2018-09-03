@@ -105,3 +105,6 @@ venv.bak/
 
 #pyCharm
 .idea/
+
+#npm
+node_modules/

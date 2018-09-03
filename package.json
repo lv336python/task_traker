@@ -1,0 +1,27 @@
+{
+  "name": "task_traker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lv336python/task_traker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lv336python/task_traker/issues"
+  },
+  "homepage": "https://github.com/lv336python/task_traker#readme",
+  "devDependencies": {
+    "@angular/cli": "^6.1.5",
+    "ts-loader": "^5.0.0",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  }
+}
