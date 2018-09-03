@@ -1,4 +1,3 @@
-import json
 from app import app
 from flask import request, session
 from app.models.user import User
@@ -6,7 +5,7 @@ from app.models.user import User
 
 @app.route("/login", methods=['POST'])
 def login():
-    
+
     if request.method == 'POST':
         data = request.get_json()
         user = User.query.filter_by(username=data['username']).first()
@@ -17,7 +16,7 @@ def login():
             return 'Invalid data'
 
 
-@app.route('/logout', methods=['GET'])
+@app.route('/logout')
 def logout():
-    session['logged_in'] = False
-    return 'Now u are logged out'
+    session.pop('username', None)
+    return 'logged out'
