@@ -1,15 +1,13 @@
-from ..app import app
-from .models.task import TaskModel
+from app import app, db
+from app.models.task import TaskModel
 from flask import request, render_template
 import json
 import datetime
-from ..app import db
 
 
-@app.route("/")
-def hello():
-    return "Hello World!"
-
+def myconverter(date):
+    if isinstance(date, datetime.datetime):
+        return date.__str__()
 
 @app.route("/tasks", methods=['GET', 'POST'])
 def get_tasks():
@@ -25,7 +23,7 @@ def get_tasks():
                  'is_active': task.is_active,
                  'updated_date': task.updated_date}
             )
-            return json.dumps(response)
+            return json.dumps(response,default=myconverter)
     elif request.method == 'POST':
         name = request.form['name']
         description = request.form['description']

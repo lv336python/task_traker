@@ -1,6 +1,5 @@
 from datetime import datetime
-from ...app import db
-from sqlalchemy import Column, Integer, String, DateTime, Text, Boolean
+from app import db
 
 
 class TaskModel(db.Model):
