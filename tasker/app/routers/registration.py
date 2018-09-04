@@ -20,3 +20,4 @@ def registration():
 def registration_get():
     # return 'hello'
         return render_template('registration.html')
+    
