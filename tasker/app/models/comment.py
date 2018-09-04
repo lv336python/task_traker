@@ -12,7 +12,7 @@ class Comment(db.Model):
     response_relationship = db.relationship("Comment")
     is_response = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    task_id = db.Column(db.Integer, db.ForeignKey('task.id'), nullable=False)
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)
 
     def __init__(self, date, body, user_id, task_id, comment_to_response=None):
         self.date = date

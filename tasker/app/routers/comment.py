@@ -38,10 +38,10 @@ def comments():
                         'message': "not authorized"}), 401
         if not Task.query.filter(Task.id == task_id).first():
             return json.dumps({'status': 404,
-                        'message': "task not found"}), 404
+                               'message': "task not found"}), 404
         if comment_to_response and not Comment.query.filter(Comment.id == comment_to_response).first():
             return json.dumps({'status': 404,
-                        'message': "comment not found"}), 404
+                               'message': "comment not found"}), 404
         else:
             new_comment = Comment(datetime.datetime.now(),
                                   body=body,
@@ -51,7 +51,6 @@ def comments():
             db.session.add(new_comment)
             db.session.commit()
             return new_comment.to_json(), 201
-
 
 
 @app.route("/comments/<int:comment_id>", methods=["PUT", "DELETE"])
@@ -84,4 +83,4 @@ def comment(comment_id):
                         'message': "not authorized"}), 401
     else:
         return json.dumps({'status': 404,
-                'message': "comment not found"}), 404
+                           'message': "comment not found"}), 404

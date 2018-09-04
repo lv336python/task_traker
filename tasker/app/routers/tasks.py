@@ -1,8 +1,10 @@
-from app import app, db
-from app.models.task import TaskModel
-from flask import request, render_template
 import json
 import datetime
+from flask import request
+
+from app import app, db
+from app.models.task import Task
+
 
 
 def myconverter(date):
@@ -13,7 +15,7 @@ def myconverter(date):
 def get_tasks():
     if request.method == 'GET':
         response = []
-        tasks = TaskModel.query.all()
+        tasks = Task.query.all()
         for task in tasks:
             response.append(
                 {'id': task.id,
@@ -29,7 +31,7 @@ def get_tasks():
         name = request.form['name']
         description = request.form['description']
 
-        new_task = TaskModel(created_date=datetime.datetime.now(), updated_date=datetime.datetime.now(), name=name,
+        new_task = Task(created_date=datetime.datetime.now(), updated_date=datetime.datetime.now(), name=name,
                              description=description)
         db.session.add(new_task)
         db.session.commit()
@@ -40,7 +42,7 @@ def get_tasks():
 @app.route('/tasks/<id>')
 def get_task(id):
     response = []
-    task = TaskModel.query.filter_by(id=id).first_or_404()
+    task = Task.query.filter_by(id=id).first_or_404()
     response.append({
         'id': task.id,
         'name': task.name,
