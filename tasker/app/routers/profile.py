@@ -8,7 +8,7 @@ from app.models.profile import Profile
 def user1(username):
     if Profile.query.filter(Profile.username == username):
         user = Profile.query.filter(Profile.username == username).first()
-        return render_template('user1.html', user=user)
+        return render_template('user.html', user=user)
 
 
 @app.route("/profile/", methods=["GET"])
