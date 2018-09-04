@@ -1,8 +1,8 @@
 import json
 import datetime
-from flask import request, session, abort
+from flask import request, session
 
-from app.models import Comment, User
+from app.models import Comment, User, Task
 from .. import app, db
 
 
@@ -15,7 +15,6 @@ def comments():
     objects and creates a new comment
     :return: String with verbal status of response
     """
-    session['user_id'] = 1
     if request.method == "GET":
         response = []
         for comment in Comment.query.all():
@@ -24,23 +23,31 @@ def comments():
                              'body': comment.body,
                              'comment_to_response': comment.comment_to_response,
                              'is_response': comment.is_response,
-                             'user_id': comment.user_id})
+                             'user_id': comment.user_id,
+                             'task_id': comment.task_id})
         return json.dumps(response), 200
 
     else:
         body = request.form["body"]
+        task_id = request.form["task_id"]
         comment_to_response = request.form.get("comment_to_response", None)
+
         user_id = session.get('user_id', None)
         if user_id is None:
-            abort(401)
+            json.dumps({'status': 401,
+                        'message': "not authorized"}), 401
+        if not Task.query.filter(Task.id == task_id).first():
+            return json.dumps({'status': 404,
+                        'message': "task not found"}), 404
         if comment_to_response and not Comment.query.filter(Comment.id == comment_to_response).first():
-            return
+            return json.dumps({'status': 404,
+                        'message': "comment not found"}), 404
         else:
-
             new_comment = Comment(datetime.datetime.now(),
                                   body=body,
                                   comment_to_response=comment_to_response,
-                                  user_id=user_id)
+                                  user_id=user_id,
+                                  task_id=task_id)
             db.session.add(new_comment)
             db.session.commit()
             return new_comment.to_json(), 201
@@ -54,21 +61,27 @@ def comment(comment_id):
     :param comment_id: integer which represents comment id in DB
     :return: String with verbal status of response
     """
-    comment_to_update = Comment.query.filter(Comment.id == comment_id).first()
-    if comment_to_update:
-        if session['user_id'] == comment_to_update.user_id:
+    comment = Comment.query.filter(Comment.id == comment_id).first()
+    if comment:
+        if session['user_id'] == comment.user_id:
+
             if request.method == "PUT":
                 body = request.form.get("body", None)
                 if body:
-                    comment_to_update.body = body
-                    db.commit()
-                    return "UPDATED\n" + str(comment_to_update)
+                    comment.body = body
+                    db.session.commit()
+                    return comment.to_json(), 200
                 else:
-                    return "FAILED"
+                    json.dumps({'status': 400,
+                                'message': "empty value"}), 400
 
             else:
-                db.delete(Comment.query.filter(Comment.id == comment_id).first())
-                db.commit()
-                return "DELETED"
+                db.session.delete(Comment.query.filter(Comment.id == comment_id).first())
+                db.session.commit()
+                return comment.to_json(), 200
+        else:
+            json.dumps({'status': 401,
+                        'message': "not authorized"}), 401
     else:
-        return "FAILED"
+        return json.dumps({'status': 404,
+                'message': "comment not found"}), 404

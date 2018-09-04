@@ -12,12 +12,14 @@ class Comment(db.Model):
     response_relationship = db.relationship("Comment")
     is_response = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id'), nullable=False)
 
-    def __init__(self, date, body, user_id, comment_to_response=None):
+    def __init__(self, date, body, user_id, task_id, comment_to_response=None):
         self.date = date
         self.body = body
         self.comment_to_response = comment_to_response
         self.user_id = user_id
+        self.task_id = task_id
         if comment_to_response:
             self.is_response = True
         else:
@@ -29,7 +31,8 @@ class Comment(db.Model):
             'body': self.body,
             'comment_to_response': self.comment_to_response,
             'is_response': self.is_response,
-            'user_id': self.user_id
+            'user_id': self.user_id,
+            'task_id': self.task_id
         })
 
     def __repr__(self):
