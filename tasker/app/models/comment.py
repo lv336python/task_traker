@@ -1,6 +1,6 @@
 import datetime
 
-from .. import db
+from app import db
 
 
 class Comment(db.Model):
