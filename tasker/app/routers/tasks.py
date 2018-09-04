@@ -23,7 +23,8 @@ def get_tasks():
                  'is_active': task.is_active,
                  'updated_date': task.updated_date}
             )
-            return json.dumps(response,default=myconverter)
+
+        return json.dumps(response,default=myconverter)
     else:
         name = request.form['name']
         description = request.form['description']
@@ -32,6 +33,7 @@ def get_tasks():
                              description=description)
         db.session.add(new_task)
         db.session.commit()
+
         return "Added new task!" + str(new_task)
 
 
@@ -47,4 +49,4 @@ def get_task(id):
         'is_active': task.is_active,
         'updated_date': task.updated_date
     })
-    return json.dumps(response)
+    return json.dumps(response,default=myconverter)

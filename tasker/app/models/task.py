@@ -19,4 +19,4 @@ class TaskModel(db.Model):
         self.updated_date = updated_date
 
     def __repr__(self):
-        return f"Task#{id}\tname : {name}\nCreated: { created_date }\tUpdated:{updated_date}"
+        return f"Task#{id}\tname : {self.name}\nCreated: { self.created_date }\tUpdated:{self.updated_date}"
