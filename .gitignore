@@ -108,4 +108,4 @@ venv.bak/
 
 
 #Project settings
-.tasker/app/local_settings.py
+/tasker/app/local_settings.py
