@@ -1,14 +1,8 @@
 from app import app, db
-from flask import render_template, request
+from flask import request
 import json
-from app.models.profile import Profile
+from app.models import Profile
 
-
-@app.route('/user/<string:username>')
-def user1(username):
-    if Profile.query.filter(Profile.username == username):
-        user = Profile.query.filter(Profile.username == username).first()
-        return render_template('user1.html', user=user)
 
 
 @app.route("/profile/", methods=["GET"])
@@ -18,8 +12,10 @@ def get_profile1():
         for user in Profile.query.all():
             response.append({
                 'id': user.id,
-                'username': user.username,
+                'firstname': user.firstname,
+                'lastname': user.lastname,
                 'email': user.email,
+                'user_id': user.user_id
             })
         return json.dumps(response)
 
@@ -28,10 +24,10 @@ def get_profile1():
 def profile1(profile_id):
     if Profile.query.filter(Profile.id == profile_id).first():
         if request.method == "PUT":
-            new_username = request.form.get('username', 'RandomName')
+            new_username = request.form.get('firstname', None)
             if new_username:
                 update_info = Profile.query.filter(Profile.id == profile_id).first()
-                update_info.username = new_username
+                update_info.firstname = new_username
                 db.session.commit()
                 return "NEW info: \n" + str(update_info)
             else:
