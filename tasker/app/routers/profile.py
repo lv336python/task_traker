@@ -1,8 +1,8 @@
-from app import app, db
-from flask import request
 import json
-from app.models import Profile
+from flask import request
 
+from app.models import Profile
+from app import app, db
 
 
 @app.route("/profile/", methods=["GET"])

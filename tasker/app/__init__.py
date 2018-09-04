@@ -19,6 +19,6 @@ from .routers import (profile,
                          home,
                          comment,
                          auth,
-                         tasks
+                         tasks,
                       )
 
