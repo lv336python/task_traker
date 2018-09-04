@@ -1,7 +1,6 @@
 from app import app, db
 from flask import render_template, request
 import json
-from app.models.registration import Registration
 from app.models.user import User
 
 
