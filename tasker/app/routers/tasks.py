@@ -24,7 +24,7 @@ def get_tasks():
                  'updated_date': task.updated_date}
             )
             return json.dumps(response,default=myconverter)
-    elif request.method == 'POST':
+    else:
         name = request.form['name']
         description = request.form['description']
 
