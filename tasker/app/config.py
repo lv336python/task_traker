@@ -1,9 +1,12 @@
 import os
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
+
 try:
     from .local_settings import *
 except:
     pass
+
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config:
     # DEBUG = False

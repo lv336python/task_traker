@@ -1,8 +1,9 @@
 from datetime import datetime
+
 from app import db
 
 
-class TaskModel(db.Model):
+class Task(db.Model):
     __tablename__ = 'tasks'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
