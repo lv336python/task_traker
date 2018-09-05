@@ -1,12 +1,26 @@
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'tasker/app/static/src/main.ts'),
-  output: {
-    path: path.resolve(__dirname, 'tasker/app/static/public'),
-    filename: 'bundle.js'
-  },
-  module: {
-        rules: [{test: /\.ts$/, exclude: [path.resolve(__dirname, "node_modules")], loader: 'ts-loader'}]
-    }
-};
+    entry: path.join(__dirname, 'tasker/app/static/src/main.ts'),
+    output: {
+        path: path.join(__dirname, 'tasker/app/static/public'),
+        filename: 'bundle.js'
+    },
+    resolve: {
+        alias: {
+            src: path.join(__dirname, 'tasker/app/static/src')
+
+        },
+        extensions: ['.js', '.ts']
+    },
+    module: {
+        rules: [
+            {test: /\.ts$/, loaders: 'ts-loader'},
+            {test: /\.css$/, loader: 'raw-loader'},
+            {test: /\.html$/, loader: 'raw-loader'}
+        ]
+    },
+
+}
+
