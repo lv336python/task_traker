@@ -10,7 +10,7 @@ class User(db.Model):
     password = db.Column(db.String(128))
 
     @staticmethod
-    def create (username, password):
+    def create(username, password):
         user = User()
         user.username = username
         user.password = generate_password_hash(password)
@@ -22,4 +22,3 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
-
