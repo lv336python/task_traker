@@ -1,7 +1,7 @@
 import json
 from flask import request
 
-from app.models import Profile
+from app.models import Profile, User
 from app import app, db
 
 
@@ -18,18 +18,23 @@ def get_profile1():
                 'user_id': user.user_id
             })
         return json.dumps(response)
+    else:
+        return json.dumps({'status': 404,
+                          'message': "profile not found"}), 404
 
 
 @app.route("/profile/<int:profile_id>", methods=["PUT"])
 def profile1(profile_id):
-    if Profile.query.filter(Profile.id == profile_id).first():
+    profile = Profile.query.filter(Profile.id == profile_id).first()
+    if profile:
         if request.method == "PUT":
-            new_username = request.form.get('firstname', None)
-            if new_username:
-                update_info = Profile.query.filter(Profile.id == profile_id).first()
-                update_info.firstname = new_username
+            new_name = request.form.get('firstname', None)
+            if new_name:
+                profile.firstname = new_name
                 db.session.commit()
-                return "NEW info: \n" + str(update_info)
+                return profile.to_json(), 200
             else:
-                return 'Doesnt work'
-    return "Doesnt work"
+                json.dumps({'status': 400,
+                            'message': "empty value"}), 400
+    return json.dumps({'status': 404,
+                      'message': "profile not found"}), 404
