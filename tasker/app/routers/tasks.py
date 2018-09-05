@@ -16,7 +16,6 @@ def get_tasks():
         response = []
         tasks = Task.query.all()
         if tasks:
-
             for task in tasks:
                 response.append(
                     {'id': task.id,
@@ -34,26 +33,41 @@ def get_tasks():
     elif request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
+        # user_id = request.form['user_id']
+        if name and description:
+            new_task = Task(created_date=datetime.datetime.now(), updated_date=datetime.datetime.now(),
+                            name=name,
+                            description=description)
+            db.session.add(new_task)
+            db.session.commit()
 
-        new_task = Task(created_date=datetime.datetime.now(), updated_date=datetime.datetime.now(), name=name,
-                        description=description)
-        db.session.add(new_task)
-        db.session.commit()
-
-        return "Added new task!" + str(new_task)
+            return "Added new task!" + str(new_task)
+        else:
+            return json.dumps({
+                'status': 400,
+                'message': 'name and description must be fiilled'
+            })
 
 
 @app.route('/tasks/<id>')
 def get_task(id):
     response = []
-    task = Task.query.filter_by(id=id).first_or_404()
-    response.append({
-        'id': task.id,
-        'user_id': task.user_id,
-        'name': task.name,
-        'description': task.description,
-        'created_date': task.created_date,
-        'is_active': task.is_active,
-        'updated_date': task.updated_date
-    })
-    return json.dumps(response, default=myconverter)
+
+    task = Task.query.filter_by(id=id).first()
+    print(task)
+    if task:
+        response.append({
+            'id': task.id,
+            'user_id': task.user_id,
+            'name': task.name,
+            'description': task.description,
+            'created_date': task.created_date,
+            'is_active': task.is_active,
+            'updated_date': task.updated_date
+        })
+        return json.dumps(response, default=myconverter)
+    else:
+        return json.dumps({
+            "status": 404,
+            'message': 'user not found'
+        })
