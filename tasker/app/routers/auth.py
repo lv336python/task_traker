@@ -1,5 +1,6 @@
-from app import app
 from flask import request, session
+
+from app import app
 from app.models.user import User
 
 
@@ -18,3 +19,4 @@ def login():
 def logout():
     session.pop('user_id', None)
     return 'logged out'
+

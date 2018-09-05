@@ -1,14 +1,8 @@
-from app import app, db
-from flask import render_template, request
 import json
-from app.models.profile import Profile
+from flask import request
 
-
-@app.route('/user/<string:username>')
-def user1(username):
-    if Profile.query.filter(Profile.username == username):
-        user = Profile.query.filter(Profile.username == username).first()
-        return render_template('user1.html', user=user)
+from app.models import Profile, User
+from app import app, db
 
 
 @app.route("/profile/", methods=["GET"])
@@ -18,22 +12,29 @@ def get_profile1():
         for user in Profile.query.all():
             response.append({
                 'id': user.id,
-                'username': user.username,
+                'firstname': user.firstname,
+                'lastname': user.lastname,
                 'email': user.email,
+                'user_id': user.user_id
             })
         return json.dumps(response)
+    else:
+        return json.dumps({'status': 404,
+                          'message': "profile not found"}), 404
 
 
 @app.route("/profile/<int:profile_id>", methods=["PUT"])
 def profile1(profile_id):
-    if Profile.query.filter(Profile.id == profile_id).first():
+    profile = Profile.query.filter(Profile.id == profile_id).first()
+    if profile:
         if request.method == "PUT":
-            new_username = request.form.get('username', 'RandomName')
-            if new_username:
-                update_info = Profile.query.filter(Profile.id == profile_id).first()
-                update_info.username = new_username
+            new_name = request.form.get('firstname', None)
+            if new_name:
+                profile.firstname = new_name
                 db.session.commit()
-                return "NEW info: \n" + str(update_info)
+                return profile.to_json(), 200
             else:
-                return 'Doesnt work'
-    return "Doesnt work"
+                json.dumps({'status': 400,
+                            'message': "empty value"}), 400
+    return json.dumps({'status': 404,
+                      'message': "profile not found"}), 404

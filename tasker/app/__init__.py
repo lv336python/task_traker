@@ -18,5 +18,8 @@ app.secret_key = 'any random string'
 from .routers import (profile,
                          home,
                          comment,
-                         auth)
+                         auth,
+                         tasks,
+                         registration
+                      )
 
