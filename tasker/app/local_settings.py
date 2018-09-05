@@ -1,7 +1,7 @@
 DATABASE = {
     'POSTGRES_USER': 'postgres',
-    'POSTGRES_PASSWORD': 'qwerty1111',
+    'POSTGRES_PASSWORD': 'katchi1899',
     'HOST': 'localhost',
     'PORT': 5432,
-    'DB_NAME': 'flask_db'
+    'DB_NAME': 'task_tracker'
 }
