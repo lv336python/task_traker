@@ -106,6 +106,8 @@ venv.bak/
 #pyCharm
 .idea/
 
-
 #Project settings
 tasker/app/local_settings.py
+
+#npm
+node_modules/
