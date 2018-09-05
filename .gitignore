@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+pycache/
 *.py[cod]
 *$py.class
 
@@ -111,6 +111,3 @@ tasker/app/local_settings.py
 
 #npm
 node_modules/
-
-#Project settings
-tasker/app/local_settings.py
