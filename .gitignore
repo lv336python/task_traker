@@ -111,3 +111,6 @@ tasker/app/local_settings.py
 
 #npm
 node_modules/
+
+#Project settings
+tasker/app/local_settings.py

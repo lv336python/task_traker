@@ -19,4 +19,3 @@ def login():
 def logout():
     session.pop('user_id', None)
     return 'logged out'
-
