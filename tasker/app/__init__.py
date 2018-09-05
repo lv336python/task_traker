@@ -20,5 +20,6 @@ from .routers import (profile,
                          comment,
                          auth,
                          tasks,
+                         registration
                       )
 
