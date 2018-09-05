@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<title>Registration</title>
+<form>
+    <!--<input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Enter email">-->
+    <input type="text" class="form-control" id="username" placeholder="username" name="username">
+    <input type="password" class="form-control" id="password" placeholder="password" name="password">
+    <button type="button" onclick="register()">Submit</button>
+</form>
+
+<script>
+    function register(){
+        var name = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        var data ={
+            'username': name,
+            'password': password
+        }
+
+        var req = new XMLHttpRequest();
+        req.open("POST", "/registration");
+        req.send(JSON.stringify(data));
+    }
+</script>
