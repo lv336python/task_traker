@@ -11,7 +11,8 @@ def get_profile1():
     Method GET if User is logged in
     :return: Json user data
     """
-    user_id = session['user']
+    user_id = session['user_id']
+    print(user_id)
     profile = Profile.query.filter(Profile.user_id == user_id).first()
     if profile:
         response = []
@@ -35,7 +36,7 @@ def profile(profile_id):
     :param profile_id:
     :return: New logged in user firstname or 40x status
     """
-    user_id = session['user']
+    user_id = session['user_id']
     if user_id == profile_id:
         profile = Profile.query.filter(Profile.id == profile_id).first()
         new_name = request.form.get('firstname', None)
