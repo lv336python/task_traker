@@ -25,15 +25,15 @@ class Comment(db.Model):
         else:
             self.is_response = False
 
-    def to_json(self):
-        return str({
-            'date': self.date,
+    def to_dict(self):
+        return {
+            'date': self.date.strftime("%Y/%M/%D %H:%M:%S"),
             'body': self.body,
             'comment_to_response': self.comment_to_response,
             'is_response': self.is_response,
             'user_id': self.user_id,
             'task_id': self.task_id
-        })
+        }
 
     def __repr__(self):
         if self.is_response:
