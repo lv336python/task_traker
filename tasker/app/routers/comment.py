@@ -30,10 +30,10 @@ def comments():
         if not user_id:
             json.dumps({'status': 401,
                         'message': "not authorized"}), 401
-        if not Task.query.filter(Task.id == task_id):
+        if not Task.query.filter(Task.id == task_id).first():
             return json.dumps({'status': 404,
                                'message': "task not found"}), 404
-        if comment_to_response and not Comment.query.filter(Comment.id == comment_to_response):
+        if comment_to_response and not Comment.query.filter(Comment.id == comment_to_response).first():
             return json.dumps({'status': 404,
                                'message': "comment not found"}), 404
         else:
