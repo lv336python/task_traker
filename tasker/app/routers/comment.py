@@ -3,7 +3,7 @@ import datetime
 from flask import request, session
 
 from app.models import Comment, User, Task
-from .. import app, db
+from app import app, db
 
 
 @app.route("/comments/", methods=["GET", "POST"])
@@ -18,13 +18,7 @@ def comments():
     if request.method == "GET":
         response = []
         for comment in Comment.query.all():
-            response.append({'id': comment.id,
-                             'date': comment.date.strftime("%Y:%M:%D  %H:%M:%S"),
-                             'body': comment.body,
-                             'comment_to_response': comment.comment_to_response,
-                             'is_response': comment.is_response,
-                             'user_id': comment.user_id,
-                             'task_id': comment.task_id})
+            response.append(comment.to_dict())
         return json.dumps(response), 200
 
     else:
@@ -33,13 +27,13 @@ def comments():
         comment_to_response = request.form.get("comment_to_response", None)
 
         user_id = session.get('user_id', None)
-        if user_id is None:
+        if not user_id:
             json.dumps({'status': 401,
                         'message': "not authorized"}), 401
-        if not Task.query.filter(Task.id == task_id).first():
+        if not Task.query.filter(Task.id == task_id):
             return json.dumps({'status': 404,
                                'message': "task not found"}), 404
-        if comment_to_response and not Comment.query.filter(Comment.id == comment_to_response).first():
+        if comment_to_response and not Comment.query.filter(Comment.id == comment_to_response):
             return json.dumps({'status': 404,
                                'message': "comment not found"}), 404
         else:
@@ -50,7 +44,7 @@ def comments():
                                   task_id=task_id)
             db.session.add(new_comment)
             db.session.commit()
-            return new_comment.to_json(), 201
+            return json.dumps(new_comment.to_dict()), 201
 
 
 @app.route("/comments/<int:comment_id>", methods=["PUT", "DELETE"])
@@ -69,7 +63,7 @@ def comment(comment_id):
                 if body:
                     comment.body = body
                     db.session.commit()
-                    return comment.to_json(), 200
+                    return json.dumps(comment.to_dict()), 200
                 else:
                     json.dumps({'status': 400,
                                 'message': "empty value"}), 400
@@ -77,7 +71,7 @@ def comment(comment_id):
             else:
                 db.session.delete(Comment.query.filter(Comment.id == comment_id).first())
                 db.session.commit()
-                return comment.to_json(), 200
+                return json.dumps(comment.to_dict()), 200
         else:
             json.dumps({'status': 401,
                         'message': "not authorized"}), 401
